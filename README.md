@@ -3,10 +3,11 @@ Split App – Expense Sharing Application
 A application that helps users split group expenses, track balances, and settle dues.
 
 ##  Live Demo
-```
+
 Frontend: https://split-app-ayu-qsa0.onrender.com
+
 Backend API: https://split-app-as.onrender.com
-```
+
 
 ## ✨ Features
 
