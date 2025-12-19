@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../services/api";
 
-function GroupDetails({ group, onBack }) {
+function GroupDetails({group, onBack, onUpdate}) {
   const [balances, setBalances] = useState([]);
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -79,10 +79,12 @@ function GroupDetails({ group, onBack }) {
     setAmount("");
     setDescription("");
     fetchBalances();
+    onUpdate(); 
   };
 
   const settleGroup = async () => {
     await API.post(`/groups/${group._id}/settle`);
+    onUpdate(); 
     setBalances([]);
     alert("Group settled successfully");
   };
