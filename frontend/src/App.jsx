@@ -10,11 +10,16 @@ function App() {
   };
 
 
-  if (!currentUser) {
-    return <Login onSelectUser={setCurrentUser} />;
-  }
-
-  return <Dashboard user={currentUser} onLogout={logout} />;
+  return (
+    <div style={{ fontSize: "0.8rem" }}> {/* 🔽 GLOBAL SCALE */}
+      {!currentUser ? (
+        <Login onSelectUser={setCurrentUser} />
+      ) : (
+        <Dashboard user={currentUser} onLogout={logout} />
+      )}
+    </div>
+  );
+  
 }
 
 export default App;
