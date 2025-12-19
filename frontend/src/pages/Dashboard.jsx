@@ -56,6 +56,7 @@ function Dashboard({ user, onLogout  }) {
       <GroupDetails
         group={selectedGroup}
         onBack={() => setSelectedGroup(null)}
+        onUpdate={fetchDashboard} // so as to update the dashboard also adding this 
       />
     );
   }
