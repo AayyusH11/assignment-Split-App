@@ -55,5 +55,49 @@ Split-App-Project/
 │
 └── README.md
 ```
+##  Environment Variables
+
+### Backend
+```
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+### Frontend
+```
+VITE_API_URL=https://split-app-as.onrender.com
+```
+
+## 🧪 Run Locally
+
+### 1. Clone the repository
+
+### 2. Start backend
+```
+cd backend
+npm install
+npm run dev
+```
+
+### 3. Start frontend
+```
+cd frontend
+npm install
+npm run dev
+```
+Frontend runs on `http://localhost:5173`
+
+## 🔌 API Endpoints (Sample)
+
+```
+- POST /users/register – Register user
+- POST /users/login – Login user
+- POST /groups – Create group
+- POST /expenses – Add expense
+- GET /dashboard/:userId – User dashboard
+```
+
+
+
 
 
