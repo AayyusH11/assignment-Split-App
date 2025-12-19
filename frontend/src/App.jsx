@@ -11,7 +11,7 @@ function App() {
 
 
   return (
-    <div style={{ fontSize: "0.8rem" }}> {/* 🔽 GLOBAL SCALE */}
+    <div style={{ fontSize: "0.7rem" }}> {/* 🔽 GLOBAL SCALE */}
       {!currentUser ? (
         <Login onSelectUser={setCurrentUser} />
       ) : (
