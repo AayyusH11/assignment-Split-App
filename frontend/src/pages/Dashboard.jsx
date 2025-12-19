@@ -107,8 +107,8 @@ function Dashboard({ user, onLogout  }) {
   style={{
     background: "#ffffff",
     borderRadius: "12px",
-    padding: "24px 30px",
-    marginBottom: "30px",
+    padding: "16px 24px",
+    marginBottom: "20px",
     boxShadow: "0 10px 20px rgba(0,0,0,0.15)",
     display: "flex",
     justifyContent: "space-between",
@@ -116,8 +116,8 @@ function Dashboard({ user, onLogout  }) {
   }}
 >
   <div>
-    <h1 style={{ margin: 0, color: "#1e293b" }}>Dashboard</h1>
-    <p style={{ marginTop: "8px", color: "#475569" }}>
+   <h2 style={{ margin: 0, color: "#1e293b" }}>Dashboard</h2>
+   <p style={{ marginTop: "4px", fontSize: "14px", color: "#475569" }}>
       Welcome, <b>{user.name}</b>
     </p>
   </div>
