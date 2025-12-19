@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 import GroupDetails from "./GroupDetails";
 
-function Dashboard({ user }) {
+function Dashboard({ user, onLogout  }) {
   const [dashboard, setDashboard] = useState(null);
   const [groups, setGroups] = useState([]);
   const [selectedGroup, setSelectedGroup] = useState(null);
@@ -102,19 +102,41 @@ function Dashboard({ user }) {
       <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
 
         {/* Header */}
-        <div style={{
-          background: "#ffffff",
-          borderRadius: "12px",
-          padding: "30px",
-          marginBottom: "30px",
-          boxShadow: "0 10px 20px rgba(0,0,0,0.15)",
-          textAlign: "center"
-        }}>
-          <h1 style={{ margin: 0, color: "#1e293b" }}>Dashboard</h1>
-          <p style={{ marginTop: "8px", color: "#475569" }}>
-            Welcome, <b>{user.name}</b>
-          </p>
-        </div>
+        <div
+  style={{
+    background: "#ffffff",
+    borderRadius: "12px",
+    padding: "24px 30px",
+    marginBottom: "30px",
+    boxShadow: "0 10px 20px rgba(0,0,0,0.15)",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }}
+>
+  <div>
+    <h1 style={{ margin: 0, color: "#1e293b" }}>Dashboard</h1>
+    <p style={{ marginTop: "8px", color: "#475569" }}>
+      Welcome, <b>{user.name}</b>
+    </p>
+  </div>
+
+  {/* Logout Button */}
+  <button
+    onClick={onLogout}
+    style={{
+      padding: "10px 16px",
+      background: "#dc2626",   
+      color: "#ffffff",
+      border: "none",
+      borderRadius: "8px",
+      cursor: "pointer",
+      fontWeight: "600",
+    }}
+  >
+    Logout
+  </button>
+</div>
 
         {/* Layout */}
         <div style={{
