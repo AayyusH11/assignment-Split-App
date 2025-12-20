@@ -169,7 +169,7 @@ function GroupDetails({group, onBack, onUpdate}) {
               balances.map((b, i) => (
                 <div key={i} style={balanceItem}>
                   <b>{usersMap[b.from]}</b> owes <b>{usersMap[b.to]}</b>
-                  <div style={{ fontWeight: "700" }}>₹{b.amount}</div>
+                  <div style={{ fontWeight: "700" }}>₹{Number(b.amount).toFixed(2)}</div>
                 </div>
               ))
             )}
