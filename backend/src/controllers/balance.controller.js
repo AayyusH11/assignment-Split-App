@@ -15,6 +15,31 @@ const getBalances = async (req, res) => {
   res.json(simplified);
 };
 
+const round2 = (num) => Math.round(num * 100) / 100;
+
+const settlePartialBalance = async (req, res) => {
+  const { from, to, amount } = req.body;
+
+  const balance = await Balance.findOne({ from, to });
+
+  if (!balance) {
+    return res.status(404).json({ error: "No such balance exists" });
+  }
+
+  const currentAmount = round2(Number(balance.amount));
+  const settleAmount = round2(Number(amount));
+  const remaining = round2(currentAmount - settleAmount);
+
+  if (remaining <= 0) {
+    await Balance.deleteOne({ _id: balance._id });
+  } else {
+    balance.amount = remaining;
+    await balance.save();
+  }
+
+  res.json({ message: "Balance settled successfully" });
+};  // corrected the logic 
+
 
 
 module.exports = {getBalances,settlePartialBalance};
