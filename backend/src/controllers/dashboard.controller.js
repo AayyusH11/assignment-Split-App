@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Balance = require("../models/Balance");
 const User = require("../models/User");
 
+const round2 = (num) => Math.round(num * 100) / 100;
+
 const getDashboard = async (req, res) => {
   try {
     const { userId } = req.params;
@@ -57,7 +59,7 @@ const getDashboard = async (req, res) => {
     }));
 
     // Now Total
-    const round2 = (num) => Math.round(num * 100) / 100;
+    
 
     const totalYouOwe = round2(
      youOwe.reduce((sum, x) => sum + x.amount, 0)
