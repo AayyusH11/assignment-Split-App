@@ -25,7 +25,7 @@ const settleDues = async (req, res) => {
 // calculate remaining
     const remaining = round2(currentAmount - settleAmount);
 
-    if (remaining <= 0) {
+    if (remaining === 0) {
      await balance.deleteOne();
      } else {
      balance.amount = remaining;
