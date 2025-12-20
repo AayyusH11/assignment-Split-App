@@ -82,7 +82,8 @@ function Dashboard({ user, onLogout  }) {
       alert("Select user and amount");
       return;
     }
-
+    
+    try {
     await API.post("/balances/settle", {
       from: user._id,
       to: selectedSettleUser,
@@ -92,6 +93,14 @@ function Dashboard({ user, onLogout  }) {
     setSelectedSettleUser("");
     setSettleAmount("");
     fetchDashboard();
+  } catch (err) {
+    const msg =
+      err.response?.data?.error ||
+      "Failed to settle dues. Please try again.";
+
+    alert(msg);
+  }
+    
   };
 
   return (
