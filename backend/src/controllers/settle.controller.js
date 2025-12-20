@@ -1,4 +1,5 @@
 const Balance = require("../models/Balance");
+const round2 = (num) => Math.round(num * 100) / 100;
 
 const settleDues = async (req, res) => {
   try {
@@ -10,13 +11,13 @@ const settleDues = async (req, res) => {
       return res.status(404).json({ error: "No pending dues found" });
     }
 
-    if (amount > balance.amount) {
+    if (round2(Number(amount)) > round2(Number(balance.amount)))  {
       return res.status(400).json({
         error: "Settlement amount exceeds due amount",
       });
     }
 
-    const round2 = (num) => Math.round(num * 100) / 100;
+    
 
 // normalize inputs
     const settleAmount = round2(Number(amount));
