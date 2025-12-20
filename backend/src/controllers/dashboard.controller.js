@@ -57,8 +57,15 @@ const getDashboard = async (req, res) => {
     }));
 
     // Now Total
-    const totalYouOwe = youOwe.reduce((sum, x) => sum + x.amount, 0);
-    const totalOwedToYou = owedToYou.reduce((sum, x) => sum + x.amount, 0);
+    const round2 = (num) => Math.round(num * 100) / 100;
+
+    const totalYouOwe = round2(
+     youOwe.reduce((sum, x) => sum + x.amount, 0)
+     );
+
+    const totalOwedToYou = round2(
+      owedToYou.reduce((sum, x) => sum + x.amount, 0)
+     ); 
 
     res.json({
       youOwe,
