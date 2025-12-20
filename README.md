@@ -3,7 +3,7 @@ Split App – Expense Sharing Application
 An application that helps users split group expenses, track balances, and settle dues.
 This is a Splitwise-like expense splitting application designed to manage shared expenses within groups. Users can create groups, add expenses using different split methods (equal, exact, or percentage), and automatically track who owes whom. The system maintains clear payable and receivable balances for each user and supports both partial and full settlements. All financial calculations and validations are handled on the backend to ensure accuracy and data integrity, while the frontend provides a simple and intuitive interface for managing expenses and settlements in real time.
 
-##  Live Demo
+## 🚀 Live Demo
 
 Frontend: https://split-app-ayu-qsa0.onrender.com
 
@@ -20,7 +20,7 @@ Backend API: https://split-app-as.onrender.com
 - Settle balances partially or fully
 - Responsive UI for desktop and mobile
 
-##  Tech Stack
+## 🛠 Tech Stack
 
 **Frontend**
 - React (Vite)
@@ -37,7 +37,7 @@ Backend API: https://split-app-as.onrender.com
 - Render (Backend + Frontend)
 - GitHub for version control
 
-##  Project Structure
+## 📁Project Structure
 
 ```text
 Split-App-Project/
@@ -70,7 +70,7 @@ Split-App-Project/
 │
 └── README.md
 ```
-##  Environment Variables
+## 🔐 Environment Variables
 
 ### Backend
 ```
@@ -111,7 +111,7 @@ Frontend runs on `http://localhost:5173`
 - POST /expenses – Add expense
 - GET /dashboard/:userId – User dashboard
 ```
-##  Design Decisions
+## 🧠 Design Decisions
 
 - All financial calculations and validations are handled on the backend to avoid inconsistencies.
 - Floating-point values are normalized to prevent rounding errors.
