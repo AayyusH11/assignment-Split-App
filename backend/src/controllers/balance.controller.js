@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Balance = require("../models/Balance");
 const simplifyBalances = require("../services/simplify.service");
+const round2 = (num) => Math.round(num * 100) / 100;
 
 
 
