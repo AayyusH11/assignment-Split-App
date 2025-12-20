@@ -16,13 +16,21 @@ const settleDues = async (req, res) => {
       });
     }
 
-    balance.amount -= amount;
+    const round2 = (num) => Math.round(num * 100) / 100;
 
-    if (balance.amount === 0) {
-      await balance.deleteOne();
-    } else {
+// normalize inputs
+    const settleAmount = round2(Number(amount));
+    const currentAmount = round2(Number(balance.amount));
+
+// calculate remaining
+    const remaining = round2(currentAmount - settleAmount);
+
+    if (remaining <= 0) {
+     await balance.deleteOne();
+     } else {
+     balance.amount = remaining;
       await balance.save();
-    }
+  }
 
     res.json({ message: "Dues settled successfully" });
   } catch (error) {
