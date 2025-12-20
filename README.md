@@ -1,6 +1,7 @@
 Split App – Expense Sharing Application
 
-A application that helps users split group expenses, track balances, and settle dues.
+An application that helps users split group expenses, track balances, and settle dues.
+This is a Splitwise-like expense splitting application designed to manage shared expenses within groups. Users can create groups, add expenses using different split methods (equal, exact, or percentage), and automatically track who owes whom. The system maintains clear payable and receivable balances for each user and supports both partial and full settlements. All financial calculations and validations are handled on the backend to ensure accuracy and data integrity, while the frontend provides a simple and intuitive interface for managing expenses and settlements in real time.
 
 ##  Live Demo
 
@@ -24,13 +25,13 @@ Backend API: https://split-app-as.onrender.com
 **Frontend**
 - React (Vite)
 - Axios
-- CSS / Tailwind (if used)
+- CSS 
 
 **Backend**
 - Node.js
 - Express.js
 - MongoDB (MongoDB Atlas)
-- JWT for authentication
+
 
 **Deployment**
 - Render (Backend + Frontend)
@@ -40,21 +41,32 @@ Backend API: https://split-app-as.onrender.com
 
 ```text
 Split-App-Project/
+│
 ├── backend/
 │   ├── src/
-│   │   ├── routes/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── app.js
-│   │   └── server.js
+│   │   ├── config/          # DB config, env setup
+│   │   ├── controllers/     # Request/response handling (API logic)
+│   │   ├── models/          # Mongoose schemas
+│   │   ├── routes/          # Express routes
+│   │   ├── services/        # Business logic (splits, settlement, etc.)
+│   │   │
+│   │   ├── app.js           # Express app setup (middlewares, routes)
+│   │   └── server.js        # Server start (listen, DB connect)
+│   │
 │   └── package.json
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── pages/
-│   │   ├── components/
-│   │   └── services/
+│   │   ├── pages/           # Page-level components (Dashboard, Login)
+│   │   ├── services/        # API calls (axios, fetch)
+│   │   │
+│   │   ├── App.jsx          # Root React component
+│   │   ├── main.jsx         # React DOM entry point
+│   │   ├── App.css
+│   │   └── index.css
+│   │
 │   └── package.json
+│   
 │
 └── README.md
 ```
@@ -99,6 +111,18 @@ Frontend runs on `http://localhost:5173`
 - POST /expenses – Add expense
 - GET /dashboard/:userId – User dashboard
 ```
+##  Design Decisions
+
+- All financial calculations and validations are handled on the backend to avoid inconsistencies.
+- Floating-point values are normalized to prevent rounding errors.
+- Balances are updated incrementally to support partial settlements.
+- Frontend focuses only on presentation and user interaction.
+
+## 🚧 Future Improvements
+
+- Expense editing and deletion
+- Expense history and analytics
+- Notifications for pending dues
 
 
 
