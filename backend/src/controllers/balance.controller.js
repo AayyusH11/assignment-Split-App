@@ -40,7 +40,7 @@ const settlePartialBalance = async (req, res) => {
 
   const remaining = round2(currentAmount - settleAmount);
 
-  if (remaining <= 0) {
+  if (remaining === 0) {
     await Balance.deleteOne({ _id: balance._id });
   } else {
     balance.amount = remaining;
