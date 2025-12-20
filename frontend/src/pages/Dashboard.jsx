@@ -153,12 +153,12 @@ function Dashboard({ user, onLogout  }) {
                 ? <p>No payables </p>
                 : dashboard.youOwe.map(i => (
                   <Item key={i._id} bg="#fef2f2" border="#dc2626">
-                    You owe <b>{i.name}</b> ₹{i.amount}
+                    You owe <b>{i.name}</b> ₹{Number(i.amount).toFixed(2)}
                   </Item>
                 ))
               }
               <Total bg="#fee2e2" color="#991b1b">
-                Total ₹{dashboard.totalYouOwe}
+                Total ₹{Number(dashboard.totalYouOwe).toFixed(2)}
               </Total>
             </Section>
 
@@ -167,12 +167,12 @@ function Dashboard({ user, onLogout  }) {
                 ? <p>No receivables</p>
                 : dashboard.owedToYou.map(i => (
                   <Item key={i._id} bg="#f0fdf4" border="#16a34a">
-                    <b>{i.name}</b> owes you ₹{i.amount}
+                    <b>{i.name}</b> owes you ₹{Number(i.amount).toFixed(2)}
                   </Item>
                 ))
               }
               <Total bg="#dcfce7" color="#166534">
-                Total ₹{dashboard.totalOwedToYou}
+                Total ₹{Number(dashboard.totalOwedToYou).toFixed(2)}
               </Total>
             </Section>
 
