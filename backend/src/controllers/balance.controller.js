@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Balance = require("../models/Balance");
 const simplifyBalances = require("../services/simplify.service");
+
 const round2 = (num) => Math.round(num * 100) / 100;
 
 
@@ -16,7 +17,7 @@ const getBalances = async (req, res) => {
   res.json(simplified);
 };
 
-const round2 = (num) => Math.round(num * 100) / 100;
+
 
 const settlePartialBalance = async (req, res) => {
   const { from, to, amount } = req.body;
@@ -29,6 +30,14 @@ const settlePartialBalance = async (req, res) => {
 
   const currentAmount = round2(Number(balance.amount));
   const settleAmount = round2(Number(amount));
+
+  // to avoid oversettlemetn 
+  if (settleAmount > currentAmount) {
+    return res.status(400).json({
+      error: "Settlement amount exceeds due amount",
+    });
+  }
+
   const remaining = round2(currentAmount - settleAmount);
 
   if (remaining <= 0) {
