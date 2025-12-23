@@ -1,4 +1,5 @@
 const Group = require("../models/Group");
+const { getGroupBalances } = require("../services/groupBalance.service");
 const { settleGroupBalances } = require("../services/balance.service");
 
 // Create group
@@ -39,6 +40,15 @@ const getGroupById = async (req, res) => {
 
 const User = require("../models/User");
 
+
+const getGroupBalancesController = async (req, res) => {
+  const { groupId } = req.params;
+
+  const balances = await getGroupBalances(groupId);
+  res.json(balances);
+};
+
+
 const addMemberByEmail = async (req, res) => {
   const { groupId } = req.params;
   const { email } = req.body;
@@ -71,5 +81,5 @@ const settleGroup = async (req, res) => {
 };
 
 
-module.exports = { createGroup, getGroupsForUser, getGroupById, addMemberByEmail,settleGroup };
+module.exports = { createGroup, getGroupsForUser, getGroupById, addMemberByEmail,settleGroup,getGroupBalancesController  };
 

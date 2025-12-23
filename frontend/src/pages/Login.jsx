@@ -2,27 +2,47 @@ import { useEffect, useState } from "react";
 import API from "../services/api";
 
 function Login({ onSelectUser }) {
-  const [users, setUsers] = useState([]);
+  
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [password,setPassword]=useState("");
+  const [isRegister,setIsRegister]=useState(false);
 
-  // Fetch existing users
-  useEffect(() => {
-    API.get("/users")
-      .then(res => setUsers(res.data))
-      .catch(err => console.error(err));
-  }, []);
+   // instead of showingall users for direct login adding password based login method 
+  const handleSubmit = async () => {
+  try {
+    if (isRegister) {
+      // REGISTER
+      if (!name || !email || !password) {
+        alert("Enter all fields");
+        return;
+      }
 
-  // Create new user
-  const createUser = async () => {
-    if (!name || !email) {
-      alert("Enter name and email");
-      return;
+      const res = await API.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
+      onSelectUser(res.data);
+    } else {
+      // LOGIN
+      if (!email || !password) {
+        alert("Enter email and password");
+        return;
+      }
+
+      const res = await API.post("/auth/login", {
+        email,
+        password,
+      });
+      onSelectUser(res.data);
     }
+  } catch (err) {
+    alert(err.response?.data?.error || "Something went wrong");
+  }
+};
 
-    const res = await API.post("/users", { name, email });
-    onSelectUser(res.data);
-  };
+
 
   return (
     <div
@@ -63,57 +83,18 @@ function Login({ onSelectUser }) {
             fontSize: "14px",
           }}
         >
-          Select a user or create a new one
+         {isRegister ? "Create an account" : "Login to continue"} 
         </p>
 
-        {/* Existing Users */}
-        <h3 style={{ marginBottom: "10px", color: "#334155" }}>
-          Existing Users
-        </h3>
-
-        <div
-          style={{
-            maxHeight: "180px",
-            overflowY: "auto",
-            border: "1px solid #e2e8f0",
-            borderRadius: "8px",
-            marginBottom: "20px",
-          }}
-        >
-          {users.length === 0 ? (
-            <p style={{ padding: "12px", color: "#64748b" }}>
-              No users found
-            </p>
-          ) : (
-            users.map(user => (
-              <button
-                key={user._id}
-                onClick={() => onSelectUser(user)}
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  border: "none",
-                  borderBottom: "1px solid #e2e8f0",
-                  background: "#f8fafc",
-                  cursor: "pointer",
-                  textAlign: "left",
-                }}
-              >
-                <strong>{user.name}</strong>
-                <div style={{ fontSize: "12px", color: "#64748b" }}>
-                  {user.email}
-                </div>
-              </button>
-            ))
-          )}
-        </div>
+        
 
         {/* Create User */}
         <h3 style={{ marginBottom: "10px", color: "#334155" }}>
           Create New User
         </h3>
-
-        <input
+        
+        {isRegister &&(
+          <input
           placeholder="Name"
           value={name}
           onChange={e => setName(e.target.value)}
@@ -125,6 +106,8 @@ function Login({ onSelectUser }) {
             border: "1px solid #cbd5e1",
           }}
         />
+        )}
+        
 
         <input
           placeholder="Email"
@@ -138,9 +121,23 @@ function Login({ onSelectUser }) {
             border: "1px solid #cbd5e1",
           }}
         />
+        <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "16px",
+            borderRadius: "6px",
+            border: "1px solid #cbd5e1",
+         }}
+       />
+
 
         <button
-          onClick={createUser}
+          onClick={handleSubmit}
           style={{
             width: "100%",
             padding: "12px",
@@ -152,8 +149,23 @@ function Login({ onSelectUser }) {
             fontWeight: "600",
           }}
         >
-          Create & Enter
+          {isRegister ? "Register" : "Login"}
         </button>
+
+        <p
+            style={{
+            marginTop: "12px",
+            textAlign: "center",
+            cursor: "pointer",
+            color: "#2563eb",
+            fontSize: "14px",
+          }}
+          onClick={() => setIsRegister(!isRegister)}
+       >
+        {isRegister
+          ? "Already have an account? Login": "New user? Register"}
+           </p>
+
       </div>
     </div>
   );
