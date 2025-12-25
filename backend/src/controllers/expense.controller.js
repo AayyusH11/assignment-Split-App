@@ -3,10 +3,8 @@ const { applySplit } = require("../services/split.service");
 
 const addExpense = async (req, res) => {
   try {
-    // this have written to debug the issue 
     console.log("Add Expense Request");
     console.log("BODY:", JSON.stringify(req.body, null, 2));
-    
 
     const {
       description,
@@ -27,40 +25,51 @@ const addExpense = async (req, res) => {
       throw new Error("Participants required");
     }
 
-    // here i was getting the issue finally spotted it 
-    
-    let splitsMap = {};
+    // splits must be an ARRAY for Expense
+    let splitsArray = [];
 
-    if (splitType !== "EQUAL") {
+    // EQUAL split handled by backend
+    if (splitType === "EQUAL") {
+      const share = amount / participants.length;
+
+      splitsArray = participants.map((userId) => ({
+        userId,
+        amount: share,
+      }));
+    } else {
+      // Exact and Percentage splits
       if (!splits || !Array.isArray(splits)) {
         throw new Error("Splits array required for EXACT / PERCENT");
       }
 
-      if (splits.length !== participants.length) {
-        throw new Error("Splits must be provided for all participants");
-      }
-
-      splits.forEach(s => {
+      splitsArray = splits.map((s) => {
         if (!s.userId || typeof s.amount !== "number") {
           throw new Error("Invalid split format");
         }
-        splitsMap[s.userId] = s.amount;
+        return {
+          userId: s.userId,
+          amount: s.amount,
+        };
       });
     }
 
-    console.log("FINAL SPLITS MAP:", splitsMap);
-
-    
+    //save expenses with splits as array
     const expense = await Expense.create({
       description,
       amount,
       paidBy,
       groupId,
       splitType,
-      splits: splitType === "EQUAL" ? {} : splitsMap,
+      splits: splitsArray,
     });
 
-    // here its the split logic 
+    // Convert array → map (only for balance logic)
+    const splitsMap = {};
+    splitsArray.forEach((s) => {
+      splitsMap[s.userId] = s.amount;
+    });
+
+    // Update balances (dashboard logic)
     await applySplit({
       groupId,
       paidBy,

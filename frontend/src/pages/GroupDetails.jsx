@@ -9,11 +9,17 @@ function GroupDetails({group, onBack, onUpdate}) {
   const [splitType, setSplitType] = useState("EQUAL");
   const [splits, setSplits] = useState({});
   const [usersMap, setUsersMap] = useState({});
+  const [view, setView] = useState("ACTIVE"); // for history of group 
 
   const fetchBalances = () => {
-    API.get(`/balances/${group._id}`)
-      .then(res => setBalances(res.data))
-      .catch(err => console.error(err));
+  const url =
+    view === "ACTIVE"
+      ? `/groups/${group._id}/balances`
+      : `/groups/${group._id}/history`;
+
+  API.get(url)
+    .then(res => setBalances(res.data))
+    .catch(err => console.error(err));
   };
 
   useEffect(() => {
@@ -28,7 +34,7 @@ function GroupDetails({group, onBack, onUpdate}) {
 
     setUsersMap(map);
     setSplits(init);
-  }, [group]);
+  }, [group, view]);
 
   const addExpense = async () => {
     if (!amount || !description) {
@@ -161,18 +167,71 @@ function GroupDetails({group, onBack, onUpdate}) {
           <div style={card}>
             <h2 style={sectionTitle}>Group Balances</h2>
 
-            {balances.length === 0 ? (
-              <p style={{ color: "#16a34a", fontWeight: "600" }}>
-               
-              </p>
-            ) : (
-              balances.map((b, i) => (
-                <div key={i} style={balanceItem}>
-                  <b>{usersMap[b.from]}</b> owes <b>{usersMap[b.to]}</b>
-                  <div style={{ fontWeight: "700" }}>₹{Number(b.amount).toFixed(2)}</div>
+            {/*to view active and old balances  */}
+        <div style={{ display: "flex", gap: "10px", marginBottom: "12px" }}>
+                  <button
+                    onClick={() => setView("ACTIVE")}
+                    style={{
+                      ...primaryBtn,
+                      background: view === "ACTIVE" ? "#2563eb" : "#94a3b8",
+                    }}
+                  >
+          Current Balances
+        </button>
+
+        <button
+              onClick={() => setView("HISTORY")}
+              style={{
+                ...primaryBtn,
+                background: view === "HISTORY" ? "#16a34a" : "#94a3b8",
+              }}
+            >
+              Old Balances
+        </button>
+      </div>
+
+          {balances.length === 0 ? (
+            <p style={{ color: "#64748b", fontWeight: "500" }}>
+              No balances to show
+            </p>
+          ) : view === "ACTIVE" ? (
+                balances.map((b, i) => (
+                  <div key={i} style={balanceItem}>
+                <b>{usersMap[b.from]}</b> owes <b>{usersMap[b.to]}</b>
+                <div style={{ fontWeight: "700" }}>
+                  ₹{Number(b.amount).toFixed(2)}
                 </div>
-              ))
-            )}
+                <div style={{ fontSize: "12px", color: "#64748b" }}>
+                  Created at {new Date(b.createdAt).toLocaleDateString()}
+                </div>
+                {b.description && (
+                <div style={{ fontSize: "13px", color: "#475569", marginTop: "4px" }}>
+                  {b.description}
+                </div>
+          )}
+          </div>
+        ))
+      ) : (
+        balances.map((b, i) => (
+                <div key={i} style={balanceItem}>
+                  <b>{b.fromName}</b> owed <b>{b.toName}</b>
+                  <div style={{ fontWeight: "700" }}>
+                    ₹{Number(b.amount).toFixed(2)}
+                  </div>
+                  <div style={{ fontSize: "12px", color: "#64748b" }}>
+                    Settled on {new Date(b.settledAt).toLocaleDateString()}
+                  </div>
+                  {b.description && (
+                    <div style={{ fontSize: "12px", color: "#475569" }}>
+                      {b.description}
+                    </div>
+                  )}
+                </div>
+        ))
+      )}
+
+
+           
 
             <button onClick={settleGroup} style={successBtn}>
               Settle Group

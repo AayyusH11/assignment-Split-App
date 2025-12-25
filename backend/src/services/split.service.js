@@ -47,7 +47,7 @@ const applySplit = async ({
     }
   }
 
-  // case 2: percentage split
+  // case 3: percentage split
   if (splitType === "PERCENT") {
     const total = Object.values(splits).reduce(
       (sum, val) => sum + val,

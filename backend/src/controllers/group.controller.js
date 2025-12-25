@@ -1,6 +1,8 @@
 const Group = require("../models/Group");
 const { getGroupBalances } = require("../services/groupBalance.service");
 const { settleGroupBalances } = require("../services/balance.service");
+const Expense = require("../models/Expense");
+const { getGroupHistory } = require("../services/groupBalance.service");
 
 // Create group
 const createGroup = async (req, res) => {
@@ -49,6 +51,13 @@ const getGroupBalancesController = async (req, res) => {
 };
 
 
+const getGroupHistoryController = async (req, res) => {
+  const { groupId } = req.params;
+  const history = await getGroupHistory(groupId);
+  res.json(history);
+};
+
+
 const addMemberByEmail = async (req, res) => {
   const { groupId } = req.params;
   const { email } = req.body;
@@ -72,14 +81,27 @@ const addMemberByEmail = async (req, res) => {
 
   res.json({ message: "User added to group", user });
 };
+
 const settleGroup = async (req, res) => {
   const { groupId } = req.params;
 
+  // Clear NET balances (dashboard)
   await settleGroupBalances(groupId);
 
-  res.json({ message: "Group settled successfully" });
+  //  Mark aLL active expenses as settled
+  const result=await Expense.updateMany(
+    { groupId, settledAt: null },
+    { $set: { settledAt: new Date() } }
+  );
+
+   console.log("SETTLED EXPENSES:", result.modifiedCount);
+
+  res.json({
+    message: "Group settled successfully",
+    settledCount: result.modifiedCount,
+  });
 };
 
 
-module.exports = { createGroup, getGroupsForUser, getGroupById, addMemberByEmail,settleGroup,getGroupBalancesController  };
+module.exports = { createGroup, getGroupsForUser, getGroupById, addMemberByEmail,settleGroup,getGroupBalancesController,getGroupHistoryController  };
 

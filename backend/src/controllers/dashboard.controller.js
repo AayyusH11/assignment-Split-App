@@ -5,8 +5,6 @@ const User = require("../models/User");
 const round2 = (num) => Math.round(num * 100) / 100;
 
 
-
-
 const getDashboard = async (req, res) => {
   try {
     const { userId } = req.params;

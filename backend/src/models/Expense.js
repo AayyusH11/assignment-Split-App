@@ -1,5 +1,21 @@
 const mongoose = require("mongoose");
 
+// sub-schema for each user's split
+const splitSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
 const expenseSchema = new mongoose.Schema(
   {
     description: {
@@ -30,10 +46,14 @@ const expenseSchema = new mongoose.Schema(
       required: true,
     },
 
-   
+    
     splits: {
-      type: Map,
-      of: Number, 
+      type: [splitSchema],
+      required: true,
+    },
+    settledAt: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }

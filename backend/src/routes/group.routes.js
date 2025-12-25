@@ -5,7 +5,8 @@ const {
   getGroupById,
   addMemberByEmail,
   settleGroup,
-  getGroupBalancesController
+  getGroupBalancesController,
+  getGroupHistoryController
 } = require("../controllers/group.controller");
 
 
@@ -15,8 +16,8 @@ router.post("/", createGroup);
 router.get("/", getGroupsForUser);      
 router.get("/:groupId", getGroupById); 
 router.post("/:groupId/add-member", addMemberByEmail);
-router.post("/:groupId/settle", settleGroup);
-router.post("/:groupId/settle", settleGroup);
 router.get("/:groupId/balances", getGroupBalancesController);
-
+router.get("/:groupId/balances", getGroupBalancesController);
+router.get("/:groupId/history", getGroupHistoryController);
+router.post("/:groupId/settle", settleGroup);
 module.exports = router;

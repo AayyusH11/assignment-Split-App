@@ -9,10 +9,10 @@ const updateBalances = async (groupId, paidBy, splits) => {
     const to = paidBy;
     const amount = split.amount;
 
-    // 1️⃣ Check same direction
+    //  Check same direction
     let sameDir = await Balance.findOne({ from, to, groupId });
 
-    // 2️⃣ Check opposite direction
+    // Check opposite direction
     let oppDir = await Balance.findOne({
       from: to,
       to: from,
